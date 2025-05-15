@@ -15,19 +15,23 @@ import { UserModule } from './User/user.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env',
-  }), 
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
-      type: process.env.DB_TYPE as any,
-      host: 'localhost',
+      type: 'postgres',
+      host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: 'office_of_sports_online',
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     AdminModule,
     AuthModule,

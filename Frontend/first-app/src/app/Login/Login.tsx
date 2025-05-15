@@ -38,14 +38,8 @@ export default function LoginPage() {
   const login = async (data: LoginSchema) => {
     try {
       const response = await api.post("/auth/login", data);
-      const token = response.data.Token; // Assuming server returns the token
-
-      // Store token in a secure cookie
-      Cookies.set("accessToken", token, {
-        expiresIn: '8h', // 1 day
-        secure: true, // Use HTTPS
-        sameSite: "Strict", // Protect from CSRF
-      });
+      const accessToken = response.data.Token;
+      Cookies.set("accessToken", accessToken);
       toast.success("Login successful");
       router.push("/Student");
     } catch (error: any) {

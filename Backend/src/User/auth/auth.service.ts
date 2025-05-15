@@ -35,7 +35,10 @@ export class AuthService {
             university_id: user.university_id, // Assuming university_id is available in the user model
         };
         const Token = await this.jwtService.signAsync(payload);
-        res.cookie('access_token',Token,{httpOnly:true});
+        res.cookie('access_token',Token,{httpOnly:true,
+            sameSite: 'none',
+            secure: true,
+        });
         return{
             message: "Login Sucessfull",Token
 

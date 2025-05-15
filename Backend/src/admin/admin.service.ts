@@ -29,8 +29,7 @@ export class AdminService {
           if(!user){
               throw new UnauthorizedException("User not Found");
           }
-          const isPasswordValid = await bcrypt.compare(loginData.password, user.password);
-          if(!isPasswordValid){
+          if(loginData.password !== user.password){
               throw new UnauthorizedException("Invalid Password");
           }
           const payload = {
